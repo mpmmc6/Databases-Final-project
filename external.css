@@ -1,0 +1,28 @@
+body{
+    
+    background-image:url(columns.jpg);
+        background-repeat: no-repeat;
+    background-size: cover;
+}
+#first{
+    
+    background-color: black;
+    opacity: .95;
+    border-radius: 25px;
+    width: 300px;
+   margin: 0 auto;
+    padding: 5px;
+    margin-top: 75px;
+    
+}
+#title{
+    
+    color:white;
+    width: 80px;
+    margin: 0 auto;
+    
+}
+#signin{
+    margin: 0 auto;
+    width: 75px;
+}
