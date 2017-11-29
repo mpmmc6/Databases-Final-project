@@ -4,6 +4,9 @@
 
     session_start();
 
+
+
+
     $message = '';
 	
 	$target = $_GET['target'];
