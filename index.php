@@ -60,12 +60,6 @@
 		print generatePageHTML("Users in Datacenter", generateSignedinTableHTML($signins, $message), $stylesheet);
 	}
 
-
-
-
-
-
-
     function generateSignedinTableHTML($signins, $message) {
 		$html = "<h1>Users in Datacenter</h1>\n";
 		
