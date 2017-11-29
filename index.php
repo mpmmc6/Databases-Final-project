@@ -4,10 +4,7 @@
 
     session_start();
 
-
-
-
-    $message = '';
+	$message = '';
 	
 	$target = $_GET['target'];
 	$action = $_POST['action'];
