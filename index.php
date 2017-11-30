@@ -226,7 +226,7 @@ EOT2;
     function processSignin() {
 		$message = '';
 		
-		if ($_POST['cancel']) {
+		if ( {$_POST['cancel']} ) {
 			$message = 'Sign in was cancelled.';
 			return array('', $message);
 		}
