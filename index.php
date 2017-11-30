@@ -190,7 +190,7 @@
                 
                 <body>
                     <h1>Visitors</h1>
-            EOT1;
+EOT1;
         
         if($message){
             $html .= "<p class='message'>$message</p>\n";
@@ -236,9 +236,9 @@ EOT2;
 			return array('signinForm', $message, $_POST);
 		}
 	
-		$userID = $_POST['userID'];
-		$reason = $_POST['reason'] ? $_POST['reason'] : "";
-        $equipment = $_POST['equipment'] ? $_POST['equipment'] : "";
+		$userID = {$_POST['userID']};
+		$reason = {$_POST['reason']} ? {$_POST['reason']} : "";
+        $equipment = {$_POST['equipment']} ? {$_POST['equipment']} : "";
 
 		// Create connection
 		require('db_credentials.php');
