@@ -215,7 +215,7 @@
                 </form>
             </body>
         </html>
-        EOT2;
+EOT2;
         
     print $html;
         
