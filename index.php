@@ -175,48 +175,95 @@
 		return $message;
 	}
 
-/*
-    function presentSignInForm($message = "", $data = null) {
-		$reason = '';
-		$equipment = '';
-			
-		$html = <<<EOT1
+    function presentSignInForm($message = "", $data = null){
+        $userID= '';
+        $reason = '';
+        $equipment = '';
+        
+        $html = <<<EOT1
             <!DOCTYPE html>
             <html>
                 <head>
                     <title>Datacenter Manager</title>
-                    <link rel="stylesheet" type="text/css" href="Signin.css">
+                    <link rel="stylesheet" type="text/css" href="Signin.css"
                 </head>
+                
                 <body>
                     <h1>Visitors</h1>
             EOT1;
         
-        if ($message) {
+        if($message){
             $html .= "<p class='message'>$message</p>\n";
         }
-		
+        
         $html .= <<<EOT2
+                
+                <form action="index.php" method="post">
+                    <input type="hidden" name="action" value="add"/>
+                    
+                    <input type="text" name="userID" value="$userID" placeholder="pawprint" maxlength="255" size="80"></p>
+                    
+                    <p>Reason for Visit<br/>
+                        <textarea name="reason" rows="6" cols="80" placeholder="reason">$reason</textarea>
+                    </p>
+                    
+                    <p>Affected Equipment<br/>
+                        <textarea name="equipment" rows="6" cols="80" placeholder="Affected Equipment">$equipment</textarea>
+                    </p>
+                    
+                    <input type="submit" name='submit' value="Submit"> <input type="submit" name='cancel' value="Cancel">
+                </form>
+            </body>
+        </html>
+        EOT2;
+        
+    print $html;
+        
+        
+        
+    }
 
-                    <form action="index.php" method="post">
-                        <input type="hidden" name="action" value="add"/>
+    function processSignin() {
+		$message = '';
+		
+		if ($_POST['cancel']) {
+			$message = 'Signing in was cancelled.';
+			return array('', $message);
+		}
+		
+		if (! $_POST['title']) {
+			$message = 'A pawprint is required.';
+			return array('signinForm', $message, $_POST);
+		}
+	
+		$userID = $_POST['userID'];
+		$reason = $_POST['reason'] ? $_POST['reason'] : "";
+        $equipment = $_POST['equipment'] ? $_POST['equipment'] : "";
 
-                        <p>Reason for Visit<br />
-                            <textarea name="reason" rows="6" cols="80" placeholder="reason">$reason
-                            </textarea>
-                        </p>
+		// Create connection
+		require('db_credentials.php');
+		$mysqli = new mysqli($servername, $username, $password, $dbname);
 
-                        <p>Affected Equipment<br />
-                            <textarea name="equipment" rows="6" cols="80" placeholder="Affected Equipment">$equipment
-                            </textarea>
-                        </p>
+		// Check connection
+		if ($mysqli->connect_error) {
+			$message = $mysqli->connect_error;
+		} else {
+			$userID = $mysqli->real_escape_string($userID);
+			$reason = $mysqli->real_escape_string($reason);
+			$equipment = $mysqli->real_escape_string($equipment);
+	
+			$sql = "INSERT INTO Signins (userID, reason, equipment, addDate) VALUES ('$userID', '$reason', '$equipment', NOW())";
+	
+			if ($result = $mysqli->query($sql)) {
+				$message = "Record was added";
+			} else {
+				$message = $mysqli->error;
+			}
 
-                        <input type="submit" name='submit' value="Submit"> <input type="submit" name='cancel' value="Cancel">
-                    </form>
-                </body>
-            </html>
-            EOT2;
-
-		print $html;
+		}
+		
+		return array('', $message);
 	}
-*/
+
+
 ?>
