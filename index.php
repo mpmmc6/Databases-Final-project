@@ -231,7 +231,7 @@ EOT2;
 			return array('', $message);
 		}
 		
-		if (! $_POST['title']) {
+		if (! {$_POST['title']} ) {
 			$message = 'A pawprint is required.';
 			return array('signinForm', $message, $_POST);
 		}
