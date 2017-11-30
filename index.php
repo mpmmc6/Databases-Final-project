@@ -67,7 +67,7 @@
 			$html .= "<p class='message'>$message</p>\n";
 		}
 		
-		$html .= "<p><a class='SigninButton' href='index.php?target=Signinform'>Sign in to Datacenter</a></p>\n";
+		$html .= "<p><a class='SigninButton' href='index.php?target=signinForm'>Sign in to Datacenter</a></p>\n";
 	
 		if (count($signins) < 1) {
 			$html .= "<p>No info to display!</p>\n";
@@ -226,7 +226,7 @@ print $html;
 			return array('', $message);
 		}
 		
-		if (! $_POST['title'] ) {
+		if (! $_POST['userID'] ) {
 			$message = 'A pawprint is required.';
 			return array('signinForm', $message, $_POST);
 		}
@@ -250,7 +250,7 @@ print $html;
 			$sql = "INSERT INTO Signins (userID, reason, equipment, addDate) VALUES ('$userID', '$reason', '$equipment', NOW())";
 	
 			if ($result = $mysqli->query($sql)) {
-				$message = "Record was added";
+				$message = "$userID is signed into the Datacenter";
 			} else {
 				$message = $mysqli->error;
 			}
