@@ -216,12 +216,9 @@ EOT1;
             </body>
         </html>
 EOT2;
-        
-    print $html;
-        
-        
-        
-    }
+
+print $html;
+}
 
     function processSignin() {
 		$message = '';
