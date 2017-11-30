@@ -162,7 +162,7 @@
 				$id = $mysqli->real_escape_string($id);
 				$sql = "UPDATE Signins SET outDate = NOW() WHERE id = '$id'";
 				if ( $result = $mysqli->query($sql) ) {
-					$message = "$id is signed out of the Datacenter.";
+					$message = "Record  # $id is signed out of the Datacenter.";
 				} else {
 					$message = $mysqli->error;
 				}
