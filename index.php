@@ -227,7 +227,7 @@
 		$message = '';
 		
 		if ($_POST['cancel']) {
-			$message = 'Signing in was cancelled.';
+			$message = 'Sign in was cancelled.';
 			return array('', $message);
 		}
 		
