@@ -18,7 +18,7 @@
 			list($target, $message, $data) = processSignin();
 			break;
 		case 'signOut':
-			$message = setOutStatus('completed');
+			$message = setOutStatus();
 			break;
 	}
 
@@ -67,7 +67,7 @@
 			$html .= "<p class='message'>$message</p>\n";
 		}
 		
-		$html .= "<p><a class='SigninButton' href='index.php?target=Signinform'>+ Sign in to Datacenter</a></p>\n";
+		$html .= "<p><a class='SigninButton' href='index.php?target=Signinform'>Sign in to Datacenter</a></p>\n";
 	
 		if (count($signins) < 1) {
 			$html .= "<p>No info to display!</p>\n";
@@ -75,7 +75,7 @@
 		}
 	
 		$html .= "<table>\n";
-		$html .= "<tr><th>actions</th><th>Signed in?</th>";
+		$html .= "<tr><th>Actions</th><th>Signed in?</th>";
 		
 		foreach ($signins as $signin) {
 			$visitID = $signin['id'];
@@ -83,24 +83,25 @@
 			$reason = ($signin['reason']) ? $signin['reason'] : '';
             $equipment = $signin['affectedEquipment'];
             $outDate = ($signin['outDate']) ? $signin['outDate'] : '';
-						
+			$addDate = $signin['addDate'];
+            
 			$outAction = 'out';
-			$outLabel = 'signed out';
-			if ($outDate) {
-				$outAction = 'set_signed_out';
-				$outLabel = 'Signed Out';
+			$status = 'sign out';
+            if ($outDate) {
+				$status = 'Signed Out';
 			}
+			
 			
 			$html .= "<tr>
                         <td>
-                            <form action='index.php' method='post'> <input type='hidden' name='action' value='delete' /> <input type='hidden' name='id' value='$id' /> <input type='submit' value='Delete'> </form>
+                            <form action='index.php' method='post'> <input type='hidden' name='action' value='delete' /> <input type='hidden' name='id' value='$visitID' /> <input type='submit' value='Delete'> </form>
                         </td>
                             
                         <td>
-                            <form action='index.php' method='post'> <input type='hidden' name='action' value='$outAction' /> <input type='hidden' name='id' value='$id' /> <input type='submit' value='$outLabel'></form>
+                            <form action='index.php' method='post'> <input type='hidden' name='action' value='signOut' /> <input type='hidden' name='id' value='$visitID' /> <input type='submit' value='$status'></form>
                         </td>
                         
-                        <td>$inDate</td>
+                        <td>$addDate</td>
                         <td>$outDate</td>
                         <td>$reason</td>
                         <td>$equipment</td>
@@ -141,15 +142,12 @@
 		return $message;
 	}
 
-    function setOutStatus($status) {
+    function setOutStatus() {
 		$id = $_POST['id'];
 	
 		$message = "";  
 		
 		$outDate = 'null';
-		if ($status == 'out') {
-			$outDate = 'NOW()';
-		}
 	
 		if (!$id) {
 			$message = "No record was specified to change in/out status.";
@@ -162,9 +160,9 @@
 				$message = $mysqli->connect_error;
 			} else {
 				$id = $mysqli->real_escape_string($id);
-				$sql = "UPDATE Signins SET outDate = $outDate WHERE id = '$id'";
+				$sql = "UPDATE Signins SET outDate = NOW() WHERE id = '$id'";
 				if ( $result = $mysqli->query($sql) ) {
-					$message = "Visit was updated to $status.";
+					$message = "$id is signed out of the Datacenter.";
 				} else {
 					$message = $mysqli->error;
 				}
@@ -223,19 +221,19 @@ print $html;
     function processSignin() {
 		$message = '';
 		
-		if ( {$_POST['cancel']} ) {
+		if ( $_POST['cancel'] ) {
 			$message = 'Sign in was cancelled.';
 			return array('', $message);
 		}
 		
-		if (! {$_POST['title']} ) {
+		if (! $_POST['title'] ) {
 			$message = 'A pawprint is required.';
 			return array('signinForm', $message, $_POST);
 		}
 	
-		$userID = {$_POST['userID']};
-		$reason = {$_POST['reason']} ? {$_POST['reason']} : "";
-        $equipment = {$_POST['equipment']} ? {$_POST['equipment']} : "";
+		$userID = $_POST['userID'];
+		$reason = $_POST['reason'] ? $_POST['reason'] : "";
+        $equipment = $_POST['equipment'] ? $_POST['equipment'] : "";
 
 		// Create connection
 		require('db_credentials.php');
