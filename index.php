@@ -15,7 +15,7 @@
 			$message = deleteRecord();
 			break;
 		case 'add':
-			list($target, $message, $data) = processSignin();
+			list($target, $message) = processSignin();
 			break;
 		case 'signOut':
 			$message = setOutStatus();
