@@ -175,7 +175,7 @@
 		return $message;
 	}
 
-    function presentSignInForm($message = "", $data = null){
+/*    function presentSignInForm($message = "", $data = null){
         $userID= '';
         $reason = '';
         $equipment = '';
@@ -218,7 +218,7 @@ EOT1;
 EOT2;
 
 print $html;
-}
+}*/
 
     function processSignin() {
 		$message = '';
