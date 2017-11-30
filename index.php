@@ -173,7 +173,7 @@
 		return $message;
 	}
 
-/*    function presentSignInForm($message = "", $data = null){
+    function presentSignInForm($message = "", $data = null){
         $userID= '';
         $reason = '';
         $equipment = '';
@@ -199,7 +199,7 @@ EOT1;
                 <form action="index.php" method="post">
                     <input type="hidden" name="action" value="add"/>
                     
-                    <input type="text" name="userID" value="$userID" placeholder="pawprint" maxlength="255" size="80"></p>
+                    <input type="text" name="userID" value="$userID" placeholder="pawprint" maxlength="255" size="80">
                     
                     <p>Reason for Visit<br/>
                         <textarea name="reason" rows="6" cols="80" placeholder="reason">$reason</textarea>
@@ -216,7 +216,7 @@ EOT1;
 EOT2;
 
 print $html;
-}*/
+}
 
     function processSignin() {
 		$message = '';
