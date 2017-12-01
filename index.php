@@ -247,7 +247,7 @@ print $html;
 			$reason = $mysqli->real_escape_string($reason);
 			$equipment = $mysqli->real_escape_string($equipment);
 	
-			$sql = "INSERT INTO Signins (userID, reason, equipment, addDate) VALUES ('$userID', '$reason', '$equipment', NOW())";
+			$sql = "INSERT INTO Signins (userID, reason, affectedEquipment, addDate) VALUES ('$userID', '$reason', '$equipment', NOW())";
 	
 			if ($result = $mysqli->query($sql)) {
 				$message = "$userID is signed into the Datacenter";
