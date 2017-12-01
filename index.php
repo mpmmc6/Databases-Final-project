@@ -1,6 +1,7 @@
 <?php
 
     require('process.php');
+    require('dropdown.php');
 
     session_start();
 
@@ -179,42 +180,93 @@
         $equipment = '';
         
         $html = <<<EOT1
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    <title>Datacenter Manager</title>
-                    <link rel="stylesheet" type="text/css" href="Signin.css"
-                </head>
-                
-                <body>
-                    <h1>Visitors</h1>
+        
+        <html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="external.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <title> Databases final project </title>
+    
+   <meta charset= "utf-8">
+    </head>
+<body>
 EOT1;
         
-        if($message){
+    if($message){
             $html .= "<p class='message'>$message</p>\n";
         }
-        
-        $html .= <<<EOT2
-                
-                <form action="index.php" method="post">
-                    <input type="hidden" name="action" value="add"/>
-                    
-                    <input type="text" name="userID" value="$userID" placeholder="pawprint" maxlength="255" size="80">
-                    
-                    <p>Reason for Visit<br/>
-                        <textarea name="reason" rows="6" cols="80" placeholder="reason">$reason</textarea>
-                    </p>
-                    
-                    <p>Affected Equipment<br/>
-                        <textarea name="equipment" rows="6" cols="80" placeholder="Affected Equipment">$equipment</textarea>
-                    </p>
-                    
-                    <input type="submit" name='submit' value="Submit"> <input type="submit" name='cancel' value="Cancel">
-                </form>
-            </body>
-        </html>
-EOT2;
+$html .= <<<EOT2
 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+        <a class="navbar-brand" href="#">Final project</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria- controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="signin.html">Sign in</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="signup.html">Sign up</a>
+                </li>
+
+
+            </ul>
+
+        </div>
+    </nav>
+    
+
+     <div ng-controller="Sign-in">
+      
+        <!--add student header-->
+        <div id="first">
+          <div class="panel panel-default">
+            <div id = "title">Sign in</div>
+            <div class="panel-body">
+    <form>
+     <div class="form-group col-md-12">
+        <select id="inputState" class="form-control">
+            <option selected>Username</option>
+                <script>
+                  $("#first-choice").change(function() {
+                    $("#second-choice").load("dropdown.php?choice=" + $("#first-choice").val());
+                    });
+                </script>
+        </select>
+     </div>
+        <div class="col-md-12">
+                  <input type="text" ng-model="studentList.studentNumber" id="Equitment used" class="form-control" placeholder="Equitment used">
+        </div>
+        <div class="col-md-12">
+                  <input type="text" ng-model="studentList.studentNumber"  class="form-control" placeholder="Reason">
+        </div>
+                  <!--submit button-->
+        <div id= "signin">
+                  <input class="btn btn-danger btn-block" type="submit" value="Sign in">
+        </div>
+                  
+     </form>
+              </div>
+            </div>
+         </div>
+    </div>
+    
+</body>
+
+
+</html>      
+EOT2;
 print $html;
 }
 
