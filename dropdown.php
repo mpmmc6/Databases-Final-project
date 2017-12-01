@@ -15,7 +15,7 @@
 
 
 	while ($row = mysql_fetch_array($result)) {
-   		echo "<option>" . $row{'DCuserID'} . "</option>";
+   		echo "<option>" . $row['DCuserID'] . "</option>";
         //echo $row{'DCuserID'};
 
     }

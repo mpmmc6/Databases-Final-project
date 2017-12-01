@@ -216,16 +216,24 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <title> Databases final project </title>
-    
+    <script>
+        function start(){
+            alert("hello");
+            $("#inputState").load("dropdown.php?choice=" + $("#first-choice").val());
+        }
+        
+    </script>
    <meta charset= "utf-8">
     </head>
-<body>
+<body onload='start();'>
 EOT1;
         
     if($message){
             $html .= "<p class='message'>$message</p>\n";
         }
 $html .= <<<EOT2
+
+    
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
         <a class="navbar-brand" href="#">Final project</a>
@@ -267,7 +275,7 @@ $html .= <<<EOT2
             <option selected>Username</option>
             <option>    <script>
                   $("#first-choice").change(function() {
-                    $("#second-choice").load("dropdown.php?choice=" + $("#first-choice").val());
+                    $("#inputState").load("dropdown.php?choice=" + $("#first-choice").val());
                     });
                 </script>
                 </option>
