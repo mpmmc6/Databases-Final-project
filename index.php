@@ -21,19 +21,26 @@
 		case 'signOut':
 			$message = setOutStatus();
 			break;
+        case 'createUser':
+            list($target, $message, $data) = processCreateUser();
+            break;
 	}
 
     switch($target) {
 		case 'signinForm':
 			presentSigninForm($message, $data);
 			break;
-		default:
+		case 'createUserForm':
+            presentCreateUserForm($message, $data);
+            break;
+        default:
 			presentSigninlist($message);
 	}
 
     function presentSigninList($message = "") {
 		$stylesheet = 'Signin.css';
-		
+		$userID = $_GET['userID'];
+        
 		$signins = array();
 
 		// Create connection
@@ -44,7 +51,11 @@
 		if ($mysqli->connect_error) {
 			$message = $mysqli->connect_error;
 		} else {
-			$sql = "SELECT * FROM Signins ORDER BY addDate";
+             if ($_GET['userID']){
+                 $sql = "SELECT * FROM Signins WHERE userID='$userID' ORDER BY addDate";
+            } else {
+			     $sql = "SELECT * FROM Signins ORDER BY addDate";
+            }
 			if ($result = $mysqli->query($sql)) {
 				if ($result->num_rows > 0) {
 					while($row = $result->fetch_assoc()) {
@@ -111,6 +122,22 @@
         
 		$html .= "</table>\n";
 	
+        
+        
+         $html .= "<p><a class='SigninButton' href='index.php?target=createUserForm'>Create New User</a></p>\n";
+        
+        if ($_GET['userID']){
+            
+            $html .= '<form action="index.php" method="get">
+                          <input type="submit" value="Clear Filter"/>
+                      </form>';
+                
+        } else {
+            $html .= "<form action='index.php' method='get'>
+                          <input type='text' name='userID' value='' placeholder='Specify Pawprint' maxlength='255' size='80' />
+                      </form>";
+        }
+        
 		return $html;
 	}
 
@@ -312,6 +339,86 @@ print $html;
 		
 		return array('', $message);
 	}
+
+    function presentCreateUserForm($message="", $data=null ){
+        $userID = '';
+        $name = '';
+        
+        $html = <<<EOT1
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <title>Create User</title>
+                    <link rel="stylesheet" type="text/css" href="Signin.css"
+                </head>
+                
+                <body>
+                    <h1>Create New User</h1>
+                
+                    <form action="index.php" method="post">
+                        <input type="hidden" name="action" value="createUser"/>
+
+                        <input type="text" name="userID" value="$userID" placeholder="pawprint" maxlength="255" size="80">
+
+                        <input type="text" name="name" value="$name" placeholder="First Name" maxlength="255" size="80">
+
+                        <input type="submit" name='submit' value="Submit"> <input type="submit" name='cancel' value="Cancel">
+                    </form>
+                </body>
+            </html>
+EOT1;
+        
+        print $html;
+    }
+
+    function processCreateUser(){
+        $message = '';
+        $userID = '';
+        $name = '';        
+        
+        if ( $_POST['cancel'] ) {
+            $message = 'Create user was cancelled.';
+            return array('', $message, null);
+		}
+		
+		if (! $_POST['userID'] ) {
+			$message = 'A pawprint is required.';
+			return array('createUser', $message, $_POST);
+		}
+        if (! $_POST['name'] ) {
+			$message = 'A name is required.';
+			return array('createUser', $message, $_POST);
+		}
+	
+		$userID = $_POST['userID'];
+		$name = $_POST['name'];
+
+		// Create connection
+		require('db_credentials.php');
+		$mysqli = new mysqli($servername, $username, $password, $dbname);
+
+		// Check connection
+		if ($mysqli->connect_error) {
+			$message = $mysqli->connect_error;
+		} else {
+			$userID = $mysqli->real_escape_string($userID);
+			$name = $mysqli->real_escape_string($name);
+            
+            $sql = "SELECT * FROM DCusers WHERE userID=$userID";
+            $result = $mysqli->query($sql);
+            if ($result->num_rows < 1){
+                $sql = "INSERT INTO DCusers (DCuserID, FirstName, addDate) VALUES ('$userID', '$name', NOW())";
+                if ($result = $mysqli->query($sql)) {
+                    $message = "New user added";
+                
+            } else {
+                $message = "Pawprint already added";
+                //$message .= $mysqli->error;
+            }} 
+		}
+		
+		return array('', $message);
+    }
 
 
 ?>
