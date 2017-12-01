@@ -238,11 +238,12 @@ $html .= <<<EOT2
      <div class="form-group col-md-12">
         <select id="inputState" class="form-control">
             <option selected>Username</option>
-                <script>
+            <option>    <script>
                   $("#first-choice").change(function() {
                     $("#second-choice").load("dropdown.php?choice=" + $("#first-choice").val());
                     });
                 </script>
+                </option>
         </select>
      </div>
         <div class="col-md-12">
