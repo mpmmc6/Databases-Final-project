@@ -1,8 +1,7 @@
 <?php
 
-	$username = "username";
-	$password = "password";
-	$hostname = "localhost";
+
+    require('db_credentials.php');
 	
 	$dbhandle = mysql_connect($hostname, $username, $password) or die("Unable to connect to MySQL");
 	$selected = mysql_select_db("dropdownvalues", $dbhandle) or die("Could not select examples");
