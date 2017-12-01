@@ -270,7 +270,7 @@ $html .= <<<EOT2
 EOT2;
 print $html;
 }
-
+ 
     function processSignin() {
 		$message = '';
 		
