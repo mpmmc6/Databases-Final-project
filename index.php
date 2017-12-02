@@ -108,11 +108,9 @@
                         <td>
                             <form action='index.php' method='post'> <input type='hidden' name='action' value='delete' /> <input type='hidden' name='id' value='$visitID' /> <input type='submit' value='Delete'> </form>
                         </td>
-                            
                         <td>
                             <form action='index.php' method='post'> <input type='hidden' name='action' value='signOut' /> <input type='hidden' name='id' value='$visitID' /> <input type='submit' value='$status'></form>
                         </td>
-                        
                         <td>$addDate</td>
                         <td>$outDate</td>
                         <td>$reason</td>
@@ -216,16 +214,10 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <title> Databases final project </title>
-    <script>
-        function start(){
-            alert("hello");
-            $("#inputState").load("dropdown.php?choice=" + $("#first-choice").val());
-        }
-        
-    </script>
+    
    <meta charset= "utf-8">
     </head>
-<body onload='start();'>
+<body>
 EOT1;
         
     if($message){
@@ -269,23 +261,20 @@ $html .= <<<EOT2
           <div class="panel panel-default">
             <div id = "title">Sign in</div>
             <div class="panel-body">
-    <form>
-     <div class="form-group col-md-12">
-        <select id="inputState" class="form-control">
-            <option selected>Username</option>
-            <option>    <script>
-                  $("#first-choice").change(function() {
-                    $("#inputState").load("dropdown.php?choice=" + $("#first-choice").val());
-                    });
-                </script>
-                </option>
-        </select>
-     </div>
+    <form action="index.php" method="post">
+        <input type="hidden" name="action" value="add"/>
         <div class="col-md-12">
-                  <input type="text" ng-model="studentList.studentNumber" id="Equitment used" class="form-control" placeholder="Equitment used">
+                  <input type="text" ng-model="studentList.studentNumber" name="userID" value="$userID" id="username" class="form-control" placeholder="pawprint">
         </div>
         <div class="col-md-12">
-                  <input type="text" ng-model="studentList.studentNumber"  class="form-control" placeholder="Reason">
+                  <!-- <input type="text" ng-model="studentList.studentNumber" name="reason" id="Equitment used" class="form-control" placeholder="Equitment used"> -->
+                  
+                  <textarea name="reason" rows="6" cols="80" placeholder="reason" ng-model="studentList.studentNumber" class="form-control">$reason</textarea>
+        </div>
+        <div class="col-md-12">
+                  <!-- <input type="text" ng-model="studentList.studentNumber"  class="form-control" placeholder="Reason"> -->
+                  
+                  <textarea name="equipment" rows="6" cols="80" placeholder="Affected Equipment" ng-model="studentList.studentNumber" class="form-control">$equipment</textarea>                  
         </div>
                   <!--submit button-->
         <div id= "signin">
@@ -322,12 +311,20 @@ print $html;
 		$userID = $_POST['userID'];
 		$reason = $_POST['reason'] ? $_POST['reason'] : "";
         $equipment = $_POST['equipment'] ? $_POST['equipment'] : "";
-
+        
 		// Create connection
 		require('db_credentials.php');
 		$mysqli = new mysqli($servername, $username, $password, $dbname);
-
-		// Check connection
+        
+        $result = $mysqli->query("SELECT DCuserID FROM DCusers WHERE DCuserID = '$userID'");
+        
+        if($result->num_rows == 0) {
+            // row not found, do stuff...
+            $message = "$userID is not an authorized user/nCreate a new user or use existing credentials";
+            return array('', $message);
+        } 
+        
+        // Check connection
 		if ($mysqli->connect_error) {
 			$message = $mysqli->connect_error;
 		} else {
@@ -412,7 +409,7 @@ EOT1;
 			$userID = $mysqli->real_escape_string($userID);
 			$name = $mysqli->real_escape_string($name);
             
-            $sql = "SELECT * FROM DCusers WHERE userID=$userID";
+            $sql = "SELECT * FROM DCusers WHERE userID='$userID'";
             $result = $mysqli->query($sql);
             if ($result->num_rows < 1){
                 $sql = "INSERT INTO DCusers (DCuserID, FirstName, addDate) VALUES ('$userID', '$name', NOW())";
