@@ -320,7 +320,7 @@ print $html;
         
         if($result->num_rows == 0) {
             // row not found, do stuff...
-            $message = "$userID is not an authorized user/nCreate a new user or use existing credentials";
+            $message = "$userID is not an authorized user<br>Create a new user or use existing credentials";
             return array('', $message);
         } 
         
