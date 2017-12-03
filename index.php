@@ -92,6 +92,18 @@
         }
 		
 		$html .= "<p><a class='SigninButton' href='index.php?target=signinForm'>Sign in to Datacenter</a></p>\n";
+        
+        if ($_GET['userID']){
+            
+            $html .= '<form action="index.php" method="get">
+                          <input type="submit" value="Clear Filter"/>
+                      </form>';
+                
+        } else {
+            $html .= "<form action='index.php' method='get'>
+                          <input type='text' name='userID' value='' placeholder='Specify Pawprint' maxlength='255' size='15' />
+                      </form>";
+        }
 	
 		if (count($signins) < 1) {
 			$html .= "<p>No info to display!</p>\n";
@@ -138,18 +150,6 @@
         
         
          $html .= "<p><a class='SigninButton' href='index.php?target=createUserForm'>Create New User</a></p>\n";
-        
-        if ($_GET['userID']){
-            
-            $html .= '<form action="index.php" method="get">
-                          <input type="submit" value="Clear Filter"/>
-                      </form>';
-                
-        } else {
-            $html .= "<form action='index.php' method='get'>
-                          <input type='text' name='userID' value='' placeholder='Specify Pawprint' maxlength='255' size='15' />
-                      </form>";
-        }
         
 		return $html;
 	}
