@@ -37,7 +37,7 @@
 	}
 
     function presentSigninList($message = "") {
-		$stylesheet = 'Signin.css';
+		$stylesheet = 'external.css';
 		$userID = $_GET['userID'];
         
 		$signins = array();
@@ -52,6 +52,7 @@
 		} else {
              if ($_GET['userID']){
                  $sql = "SELECT * FROM Signins WHERE userID='$userID' ORDER BY addDate";
+                 $sql_getNameOfUser = "SELECT FirstName FROM DCusers WHERE DCuserID='$userID'";
             } else {
 			     $sql = "SELECT * FROM Signins ORDER BY addDate";
             }
@@ -65,18 +66,30 @@
 			} else {
 				$message = $mysqli->error;
 			}
+            
+            if ($nameResult = $mysqli->query($sql_getNameOfUser)){
+                $name = $nameResult->fetch_assoc();
+                $name = $name['FirstName'];
+            } else {
+                $message .= $mysqli->error;
+            }
+            
 			$mysqli->close();
 		}
 	
-		print generatePageHTML("Users in Datacenter", generateSignedinTableHTML($signins, $message), $stylesheet);
+		print generatePageHTML("Users in Datacenter", generateSignedinTableHTML($signins, $message, $name), $stylesheet);
 	}
 
-    function generateSignedinTableHTML($signins, $message) {
+    function generateSignedinTableHTML($signins, $message, $nameSpecified) {
 		$html = "<h1>Users in Datacenter</h1>\n";
 		
 		if ($message) {
 			$html .= "<p class='message'>$message</p>\n";
 		}
+        
+         if($nameSpecified){
+            $html .= "<h2>Records for " . $nameSpecified . "</h2>\n";
+        }
 		
 		$html .= "<p><a class='SigninButton' href='index.php?target=signinForm'>Sign in to Datacenter</a></p>\n";
 	
@@ -86,8 +99,8 @@
 		}
 	
 		$html .= "<table>\n";
-		$html .= "<tr><th>Actions</th><th>Signed in?</th>";
 		
+        $html .= "<tr><th>Actions</th><th>Signed in?</th><th>Pawprint</th><th>IN-Datetime</th><th>OUT-Datetime</th><th>Reason</th><th>Affected Equipment</th>";
         
 		foreach ($signins as $signin) {
 			$visitID = $signin['id'];
@@ -134,7 +147,7 @@
                 
         } else {
             $html .= "<form action='index.php' method='get'>
-                          <input type='text' name='userID' value='' placeholder='Specify Pawprint' maxlength='255' size='80' />
+                          <input type='text' name='userID' value='' placeholder='Specify Pawprint' maxlength='255' size='15' />
                       </form>";
         }
         
