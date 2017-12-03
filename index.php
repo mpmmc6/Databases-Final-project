@@ -1,7 +1,6 @@
 <?php
 
     require('process.php');
-    require('dropdown.php');
 
     session_start();
 
@@ -89,6 +88,7 @@
 		$html .= "<table>\n";
 		$html .= "<tr><th>Actions</th><th>Signed in?</th>";
 		
+        
 		foreach ($signins as $signin) {
 			$visitID = $signin['id'];
 			$userID = $signin['userID'];
@@ -103,6 +103,7 @@
 				$status = 'Signed Out';
 			}
 			
+            
 			
 			$html .= "<tr>
                         <td>
@@ -111,6 +112,7 @@
                         <td>
                             <form action='index.php' method='post'> <input type='hidden' name='action' value='signOut' /> <input type='hidden' name='id' value='$visitID' /> <input type='submit' value='$status'></form>
                         </td>
+                        <td>$userID</td>
                         <td>$addDate</td>
                         <td>$outDate</td>
                         <td>$reason</td>
@@ -372,7 +374,7 @@ print $html;
                 </body>
             </html>
 EOT1;
-        
+
         print $html;
     }
 
