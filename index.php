@@ -37,7 +37,7 @@
 	}
 
     function presentSigninList($message = "") {
-		$stylesheet = 'external.css';
+        $stylesheet = 'external.css';
 		$userID = $_GET['userID'];
         
 		$signins = array();
@@ -73,7 +73,6 @@
             } else {
                 $message .= $mysqli->error;
             }
-            
 			$mysqli->close();
 		}
 	
@@ -87,22 +86,22 @@
 			$html .= "<p class='message'>$message</p>\n";
 		}
         
-         if($nameSpecified){
-            $html .= "<h2>Records for " . $nameSpecified . "</h2>\n";
+        if($nameSpecified){
+            $html .= "<h1>Records for " . $nameSpecified . "</h1>\n";
         }
 		
-		$html .= "<p><a class='SigninButton' href='index.php?target=signinForm'>Sign in to Datacenter</a></p>\n";
+		$html .= "<p><a class='SigninButton' href='index.php?target=signinForm'>Sign in to Datacenter</a></p>";
         
         if ($_GET['userID']){
             
             $html .= '<form action="index.php" method="get">
                           <input type="submit" value="Clear Filter"/>
-                      </form>';
+                      </form><br>';
                 
         } else {
             $html .= "<form action='index.php' method='get'>
                           <input type='text' name='userID' value='' placeholder='Specify Pawprint' maxlength='255' size='15' />
-                      </form>";
+                      </form>\n";
         }
 	
 		if (count($signins) < 1) {
@@ -110,10 +109,9 @@
 			return $html;
 		}
 	
-		$html .= "<table>\n";
+		$html .= "<table class='table table-striped'>\n";
+		$html .= "<tr><th>Actions</th><th>Signed in?</th><th>Pawprint</th><th>IN-Datetime</th><th>OUT-Datetime</th><th>Reason</th><th>Affected Equipment</th>";
 		
-        $html .= "<tr><th>Actions</th><th>Signed in?</th><th>Pawprint</th><th>IN-Datetime</th><th>OUT-Datetime</th><th>Reason</th><th>Affected Equipment</th>";
-        
 		foreach ($signins as $signin) {
 			$visitID = $signin['id'];
 			$userID = $signin['userID'];
@@ -128,7 +126,6 @@
 				$status = 'Signed Out';
 			}
 			
-            
 			
 			$html .= "<tr>
                         <td>
@@ -147,9 +144,7 @@
         
 		$html .= "</table>\n";
 	
-        
-        
-         $html .= "<p><a class='SigninButton' href='index.php?target=createUserForm'>Create New User</a></p>\n";
+        $html .= "<p><a class='SigninButton btn' href='index.php?target=createUserForm'>Create New User</a></p>";
         
 		return $html;
 	}
@@ -250,18 +245,14 @@ $html .= <<<EOT2
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+            
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="signin.html">Sign in</a>
+                    <a class="nav-link" href="index.php?target=createUserForm">Sign up</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="signup.html">Sign up</a>
-                </li>
-
 
             </ul>
 
@@ -272,31 +263,31 @@ $html .= <<<EOT2
      <div ng-controller="Sign-in">
       
         <!--add student header-->
-        <div id="first">
+        <div class="first">
           <div class="panel panel-default">
-            <div id = "title">Sign in</div>
+            <div class = "title">Sign in</div>
             <div class="panel-body">
-    <form action="index.php" method="post">
-        <input type="hidden" name="action" value="add"/>
-        <div class="col-md-12">
-                  <input type="text" ng-model="studentList.studentNumber" name="userID" value="$userID" id="username" class="form-control" placeholder="pawprint">
-        </div>
-        <div class="col-md-12">
-                  <!-- <input type="text" ng-model="studentList.studentNumber" name="reason" id="Equitment used" class="form-control" placeholder="Equitment used"> -->
-                  
-                  <textarea name="reason" rows="6" cols="80" placeholder="reason" ng-model="studentList.studentNumber" class="form-control">$reason</textarea>
-        </div>
-        <div class="col-md-12">
-                  <!-- <input type="text" ng-model="studentList.studentNumber"  class="form-control" placeholder="Reason"> -->
-                  
-                  <textarea name="equipment" rows="6" cols="80" placeholder="Affected Equipment" ng-model="studentList.studentNumber" class="form-control">$equipment</textarea>                  
-        </div>
-                  <!--submit button-->
-        <div id= "signin">
-                  <input class="btn btn-danger btn-block" type="submit" value="Sign in">
-        </div>
-                  
-     </form>
+                <form action="index.php" method="post">
+                    <input type="hidden" name="action" value="add"/>
+                    <div class="col-md-12">
+                              <input type="text" ng-model="studentList.studentNumber" name="userID" value="$userID" id="username" class="form-control" placeholder="pawprint">
+                    </div>
+                    <div class="col-md-12">
+                              <!-- <input type="text" ng-model="studentList.studentNumber" name="reason" id="Equitment used" class="form-control" placeholder="Equitment used"> -->
+
+                              <textarea name="reason" rows="6" cols="80" placeholder="reason" ng-model="studentList.studentNumber" class="form-control">$reason</textarea>
+                    </div>
+                    <div class="col-md-12">
+                              <!-- <input type="text" ng-model="studentList.studentNumber"  class="form-control" placeholder="Reason"> -->
+
+                              <textarea name="equipment" rows="6" cols="80" placeholder="Affected Equipment" ng-model="studentList.studentNumber" class="form-control">$equipment</textarea>                  
+                    </div>
+                              <!--submit button-->
+                    <div class= "signin">
+                              <input class="btn btn-danger btn-block" type="submit" value="Sign in">
+                    </div>
+
+                 </form>
               </div>
             </div>
          </div>
@@ -362,32 +353,78 @@ print $html;
 
     function presentCreateUserForm($message="", $data=null ){
         $userID = '';
-        $name = '';
+        $name = '';    
         
         $html = <<<EOT1
             <!DOCTYPE html>
             <html>
                 <head>
                     <title>Create User</title>
-                    <link rel="stylesheet" type="text/css" href="Signin.css"
+                    <link rel="stylesheet" type="text/css" href="Signin.css">
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+                    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
                 </head>
                 
                 <body>
-                    <h1>Create New User</h1>
+                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+                        <a class="navbar-brand" href="#">Final project</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria- controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
                 
-                    <form action="index.php" method="post">
-                        <input type="hidden" name="action" value="createUser"/>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mr-auto">
 
-                        <input type="text" name="userID" value="$userID" placeholder="pawprint" maxlength="255" size="80">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                                </li>
 
-                        <input type="text" name="name" value="$name" placeholder="First Name" maxlength="255" size="80">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.php?target=signinForm">Sign In</a>
+                                </li>
 
-                        <input type="submit" name='submit' value="Submit"> <input type="submit" name='cancel' value="Cancel">
-                    </form>
+                            </ul>
+
+                        </div>
+                    
+                    </nav>
+                                        
+                <!-- <div ng-controller="Sign-up"> -->
+                    <div class="container">
+                        <div class="first">
+                            <div class="panel panel-default">
+                                <div class = "title">Create New User</div>
+                                <div class="panel-body">
+
+                                    <form action="index.php" method="post">
+                                    
+                                        <input type="hidden" name="action" value="createUser"/>
+                                        <div class="col-md-12">
+                                                  <input type="text" ng-model="studentList.studentNumber" name="userID" value="$userID" id="username" class="form-control" placeholder="Enter Pawprint">
+                                        </div>
+
+                                        <div class="col-md-12">
+                                                  <input type="text" ng-model="studentList.studentNumber" name="name" value="$name" class="form-control" placeholder="Enter First name">
+                                        </div>
+
+                                        <!--submit button-->
+                                        <div class = "signin">
+                                            <input class="btn btn-danger btn-block" type="submit" value="Sign Up">
+                                        </div>
+
+                                     </form>
+
+                                </div>
+                            </div>
+                        </div>
+            <!--    </div>  -->
+                    </div>
                 </body>
             </html>
 EOT1;
-
+        
         print $html;
     }
 
