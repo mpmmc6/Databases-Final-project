@@ -37,7 +37,8 @@
 	}
 
     function presentSigninList($message = "") {
-        $stylesheet = 'external.css';
+        $stylesheet = 'ex.css';
+        
 		$userID = $_GET['userID'];
         
 		$signins = array();
@@ -80,7 +81,7 @@
 	}
 
     function generateSignedinTableHTML($signins, $message, $nameSpecified) {
-		$html = "<h1>Users in Datacenter</h1>\n";
+		$html = "<div id='mainScreen'><h1>Users in Datacenter</h1></div>\n";
 		
 		if ($message) {
 			$html .= "<p class='message'>$message</p>\n";
@@ -90,8 +91,8 @@
             $html .= "<h1>Records for " . $nameSpecified . "</h1>\n";
         }
 		
-		$html .= "<p><a class='SigninButton' href='index.php?target=signinForm'>Sign in to Datacenter</a></p>";
-        
+		$html .= "<p><div id='main'><a id='signin' href='index.php?target=signinForm'>Sign in</a></p></div>";
+        $html .= "<p><a class='signin' id= 'create'  href='index.php?target=createUserForm'>Create New User</a></p></div><br><br><br>";
         if ($_GET['userID']){
             
             $html .= '<form action="index.php" method="get">
@@ -100,15 +101,15 @@
                 
         } else {
             $html .= "<form action='index.php' method='get'>
-                          <input type='text' name='userID' value='' placeholder='Specify Pawprint' maxlength='255' size='15' />
-                      </form>\n";
+                          <input type='text' name='userID' value='' placeholder='Specify Pawprint' id='specify' maxlength='255' size='15' />
+                      </form>\n<br><br>";
         }
 	
 		if (count($signins) < 1) {
 			$html .= "<p>No info to display!</p>\n";
 			return $html;
 		}
-	
+//	       $html .= "<p><a class='signin' id= 'create'  href='index.php?target=createUserForm'>Create New User</a></p><br><br><br>";
 		$html .= "<table class='table table-striped'>\n";
 		$html .= "<tr><th>Actions</th><th>Signed in?</th><th>Pawprint</th><th>IN-Datetime</th><th>OUT-Datetime</th><th>Reason</th><th>Affected Equipment</th>";
 		
@@ -144,7 +145,7 @@
         
 		$html .= "</table>\n";
 	
-        $html .= "<p><a class='SigninButton btn' href='index.php?target=createUserForm'>Create New User</a></p>";
+//        $html .= "<p><a class='SigninButton btn' href='index.php?target=createUserForm'>Create New User</a></p>";
         
 		return $html;
 	}
@@ -218,7 +219,7 @@
         
         <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="external.css">
+    <link rel="stylesheet" type="text/css" href="ex.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -265,7 +266,7 @@ $html .= <<<EOT2
         <!--add student header-->
         <div class="first">
           <div class="panel panel-default">
-            <div class = "title">Sign in</div>
+            <div class = "title"">Sign in</div>
             <div class="panel-body">
                 <form action="index.php" method="post">
                     <input type="hidden" name="action" value="add"/>
@@ -360,7 +361,7 @@ print $html;
             <html>
                 <head>
                     <title>Create User</title>
-                    <link rel="stylesheet" type="text/css" href="Signin.css">
+                    <link rel="stylesheet" type="text/css" href="ex.css">
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
                     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -391,11 +392,11 @@ print $html;
                     
                     </nav>
                                         
-                <!-- <div ng-controller="Sign-up"> -->
-                    <div class="container">
+                 <div ng-controller="Sign-up">
+                    
                         <div class="first">
                             <div class="panel panel-default">
-                                <div class = "title">Create New User</div>
+                                <div class="title" style = "width:180px;">Create New User</div>
                                 <div class="panel-body">
 
                                     <form action="index.php" method="post">
@@ -419,7 +420,7 @@ print $html;
                                 </div>
                             </div>
                         </div>
-            <!--    </div>  -->
+                    
                     </div>
                 </body>
             </html>
