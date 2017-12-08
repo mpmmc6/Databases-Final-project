@@ -37,7 +37,7 @@
 	}
 
     function presentSigninList($message = "") {
-        $stylesheet = 'ex.css';
+        $stylesheet = 'ex2.css';
         
 		$userID = $_GET['userID'];
         
@@ -111,7 +111,7 @@
 		}
 //	       $html .= "<p><a class='signin' id= 'create'  href='index.php?target=createUserForm'>Create New User</a></p><br><br><br>";
 		$html .= "<table class='table table-striped'>\n";
-		$html .= "<tr><th>Actions</th><th>Signed in?</th><th>Pawprint</th><th>IN-Datetime</th><th>OUT-Datetime</th><th>Reason</th><th>Affected Equipment</th>";
+		$html .= "<tr><th>Actions</th><th id = ''>Signed in?</th><th>Pawprint</th><th>IN-Datetime</th><th>OUT-Datetime</th><th>Reason</th><th>Affected Equipment</th>";
 		
 		foreach ($signins as $signin) {
 			$visitID = $signin['id'];
@@ -152,7 +152,6 @@
 
     function deleteRecord() {
 		$id = $_POST['id'];
-	
 		$message = "";
 	
 		if (!$id) {
@@ -219,7 +218,7 @@
         
         <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="ex.css">
+    <link rel="stylesheet" type="text/css" href="ex2.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -361,7 +360,7 @@ print $html;
             <html>
                 <head>
                     <title>Create User</title>
-                    <link rel="stylesheet" type="text/css" href="ex.css">
+                    <link rel="stylesheet" type="text/css" href="ex2.css">
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
                     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
