@@ -37,4 +37,5 @@ READ: The home page reads and presents the list of records from the database, yo
 UPDATE: The sign out button updates the database with the out date for that record.
 DELETE: The delete button on the record allows the user to remove that record from the database.
 
+The app can be accessed at www.heinzeh.tk
 Video Demonstration: https://www.youtube.com/watch?v=EqrnTPbVUCg&feature=youtu.be
